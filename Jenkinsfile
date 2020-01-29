@@ -36,24 +36,23 @@ pipeline {
         //     }
         // }
     
-        stage('508 Testing'){
-            steps {
-                script {
+        // stage('508 Testing'){
+        //     steps {
+        //         script {
 
-                    sh 'pa11y-ci'
-                    // sh label: '', returnStdout: true, script: 'sh runpa11y.sh'
-                    //  publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'pa11y/index.html', reportName: '508 Testing Report', reportTitles: '508 Accessibility Report'])
-                }
-            }
-         }
-
-        //   stage('Lighthouse') {
-        //         steps {
-                 
-        //           sh 'npm install'
-        //             sh 'npm run lighthouse'
+        //             sh 'pa11y-ci'
+        //             // sh label: '', returnStdout: true, script: 'sh runpa11y.sh'
+        //             //  publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'pa11y/index.html', reportName: '508 Testing Report', reportTitles: '508 Accessibility Report'])
         //         }
         //     }
+        //  }
+
+        stage('Lighthouse') {
+            steps {
+                sh 'lighthouse --quiet --no-update-notifier --no-enable-error-reporting --output=json --output-path=./lighthouse-report.json --chrome-flags="--headless" https://cynerge.com'
+                lighthouseReport 'lighthouse-report.json'
+            }
+        }
 
       
 
