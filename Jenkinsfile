@@ -47,12 +47,12 @@ pipeline {
         //     }
         //  }
 
-        stage('Lighthouse') {
-            steps {
-                sh 'npm install'
-                sh 'lighthouse --quiet --no-update-notifier --no-enable-error-reporting --output=json --output-path=./lighthouse-report.json https://cynerge.com'
-            }
-        }
+        // stage('Lighthouse') {
+        //     steps {
+        //         sh 'npm install'
+        //         sh 'lighthouse --quiet --no-update-notifier --no-enable-error-reporting --output=json --output-path=./lighthouse-report.json https://cynerge.com'
+        //     }
+        // }
 
       
 
