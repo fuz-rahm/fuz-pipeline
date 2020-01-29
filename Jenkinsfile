@@ -5,7 +5,7 @@ pipeline {
     tools {
         maven 'maven'
         jdk 'java8'
-        nodejs "Node10"
+        // nodejs "Node10"
         
     }  
 
@@ -49,7 +49,7 @@ pipeline {
 
         stage('Lighthouse') {
             steps {
-                sh 'npm install'
+                sh 'npm install lighthouse'
                 sh 'lighthouse'
             }
         }
