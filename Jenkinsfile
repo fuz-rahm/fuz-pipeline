@@ -49,8 +49,8 @@ pipeline {
 
         stage('Lighthouse') {
             steps {
-                sh 'lighthouse --quiet --no-update-notifier --no-enable-error-reporting --output=json --output-path=./lighthouse-report.json --chrome-flags="--headless" https://cynerge.com'
-                lighthouseReport 'lighthouse-report.json'
+                sh 'npm install'
+                sh 'lighthouse'
             }
         }
 
