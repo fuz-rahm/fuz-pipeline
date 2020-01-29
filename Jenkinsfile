@@ -11,29 +11,31 @@ pipeline {
 
     stages {
         stage('clean workspace') {
-
             steps{
                 cleanWs()
             }
         }
 
 
-
-        
-  
-  
-        stage('SonarQube Scanner') {
+        stage('Checkout from SCM'){
 
             steps {
-                 withSonarQubeEnv(credentialsId: 'f225455e-ea59-40fa-8af7-08176e86507a', installationName: 'My SonarQube Server') { // You can override the credential to be used
-                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
-                 }
+
+                checkout([$class: 'GitSCM', branches: [[name: 'fuz/pipeline-build']], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'GIT', submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/fuz-rahm/maven-hello-world.git']]])
+
             }
         }
+
+
+        // stage('SonarQube Scanner') {
+
+        //     steps {
+        //          withSonarQubeEnv(credentialsId: 'f225455e-ea59-40fa-8af7-08176e86507a', installationName: 'My SonarQube Server') { // You can override the credential to be used
+        //          sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
+        //          }
+        //     }
+        // }
     
-
-
-       
         // stage('508 Testing'){
         //     steps {
         //         script {
@@ -46,13 +48,13 @@ pipeline {
         //     }
         //  }
 
-          stage('Lighthouse') {
-                steps {
+        //   stage('Lighthouse') {
+        //         steps {
                  
-                  sh 'npm install'
-                    sh 'npm run lighthouse'
-                }
-            }
+        //           sh 'npm install'
+        //             sh 'npm run lighthouse'
+        //         }
+        //     }
 
       
 
@@ -60,27 +62,28 @@ pipeline {
             steps {
                 sh 'echo "path: ${PATH}"'
                 sh 'echo "M2_HOME: ${M2_HOME}"'
-                sh 'mvn clean install -Dmaven.test.failure.ignore=true'
+                sh 'mvn clean verify'
             }
         }
 
+        // install -Dmaven.test.failure.ignore=true
 
 
         
     }
 
-    post {
-        always {
-            publishHTML (target: [
-            allowMissing: false,
-            alwaysLinkToLastBuild: false,
-            keepAll: true,
-            reportDir: '.',
-            reportFiles: 'lighthouse-report.html',
-            reportName: "Lighthouse"
-            ])
-        }
-    }
+    // post {
+    //     always {
+    //         publishHTML (target: [
+    //         allowMissing: false,
+    //         alwaysLinkToLastBuild: false,
+    //         keepAll: true,
+    //         reportDir: '.',
+    //         reportFiles: 'lighthouse-report.html',
+    //         reportName: "Lighthouse"
+    //         ])
+    //     }
+    // }
 
     
 
